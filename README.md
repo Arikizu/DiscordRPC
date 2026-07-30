@@ -7,8 +7,8 @@ A lightweight desktop application paired with a browser userscript that dynamica
 ## 🌟 Features
 
 * **Multi-Platform Support:** Works seamlessly with popular video and audio platforms:
-  * **Video:** YouTube, Bilibili, Vimeo, CDA.pl, Rumble, Netflix, Twitch
-  * **Music:** Spotify
+  * **Video:** YouTube, CDA.pl, Rumble, Netflix, Twitch
+  * **Music:** YouTube Music, Spotify
 * **Privacy & Incognito Controls:**
   * Toggle Rich Presence globally or per-site.
   * Enable **Incognito Mode** to hide specific details (such as titles, channel names, or timestamps) while still broadcasting general activity.
@@ -45,15 +45,15 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ## 🛠️ Supported Platforms
 
-| Platform | Type | Features |
+| Platform | Type | Status |
 | :--- | :--- | :--- |
-| **YouTube / YouTube Music** | Video/Music |  Title, Channel, Timestamp |
-| **Netflix** | Video |  Title, Episode Info |
-| **Twitch** | Live Stream |  Streamer Name, Category |
-| **Spotify (Web)** | Music |  Track Name, Artist |
-| **CDA.pl / Rumble / Vimeo** | Video |  layback Status |
-| **Shinden.pl** | Anime |  Metadata + Cover Art Fetch |
-| **OgladajAnime.pl** | Anime |  Metadata + Cover Art Fetch |
+| **YouTube** | Video-Streaming | Working |
+| **Twitch** | Live-Streaming | Working |
+| **Netflix** | Video-Streaming | Not tested |
+| **Rumble** | Video-Streaming | Broken |
+| **CDA.pl** | Video-Streaming | Working |
+| **Shinden.pl** | Anime | Working |
+| **OgladajAnime.pl** | Anime | Working |
 
 ---
 
