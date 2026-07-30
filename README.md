@@ -49,7 +49,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 | :--- | :--- | :--- |
 | **YouTube** | Video-Streaming | Working |
 | **Twitch** | Live-Streaming | Working |
-| **Netflix** | Video-Streaming | Not tested |
+| **Netflix** | Video-Streaming | Not Tested |
 | **Rumble** | Video-Streaming | Broken |
 | **CDA.pl** | Video-Streaming | Working |
 | **Shinden.pl** | Anime | Working |
