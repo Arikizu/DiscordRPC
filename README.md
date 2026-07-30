@@ -45,15 +45,15 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ## 🛠️ Supported Platforms
 
-| Platform | Type | Status |
-| :--- | :--- | :--- |
-| **YouTube** | Video-Streaming | Working |
-| **Twitch** | Live-Streaming | Working |
-| **Netflix** | Video-Streaming | Not Tested |
-| **Rumble** | Video-Streaming | Broken |
-| **CDA.pl** | Video-Streaming | Working |
-| **Shinden.pl** | Anime | Working |
-| **OgladajAnime.pl** | Anime | Working |
+| Platform | Type | Status | Language |
+| :--- | :--- | :--- | :--- |
+| **YouTube** | Video-Streaming | Working | Global |
+| **Twitch** | Live-Streaming | Working | Global |
+| **Netflix** | Video-Streaming | Not Tested | Global |
+| **Rumble** | Video-Streaming | Broken | Global |
+| **CDA.pl** | Video-Streaming | Working | Polish |
+| **Shinden.pl** | Anime | Working | Polish |
+| **OgladajAnime.pl** | Anime | Working | Polish |
 
 ---
 
