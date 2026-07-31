@@ -6,7 +6,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ## Features
 
-* **Multi-Platform Support:** Works seamlessly with popular video and audio platforms:
+* **Platform Support:** Works with popular streaming platforms:
   * **Video:** YouTube, CDA.pl, Rumble, Netflix, Twitch
 * **Privacy & Incognito Controls:**
   * Toggle Rich Presence globally or per-site.
@@ -16,8 +16,8 @@ A lightweight desktop application paired with a browser userscript that dynamica
   * Clean dark theme UI.
   * Minimizes to the Windows system tray.
   * Runs a lightweight local HTTP server (`127.0.0.1:7591`) for fast communication with the browser script.
+* **Automatic Cover Art:** Automatically fetches high-resolution youtube thumbnail or anime cover art using the **AniList GraphQL API** (with Jikan fallback).
 * **Anime Site Integration:** Dedicated support for Polish anime streaming platforms **Shinden.pl** and **OgladajAnime.pl**.
-* **Automatic Cover Art:** Automatically fetches high-resolution anime cover art using the **AniList GraphQL API** (with Jikan fallback).
 
 ---
 
@@ -46,11 +46,11 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 | Platform | Type | Language | Status |
 | :--- | :--- | :--- | :--- |
-| **YouTube** | Video-Streaming |Global | Working |
-| **Twitch** | Live-Streaming | Global | Working |
-| **Netflix** | Video-Streaming | Global | Not Tested |
-| **Rumble** | Video-Streaming | Global | Working |
-| **CDA.pl** | Video-Streaming | Polish | Working |
+| **YouTube** | Streaming | Global | Working |
+| **Twitch** | Streaming | Global | Working |
+| **Rumble** | Streaming | Global | Working |
+| **Netflix** | Streaming | Global | Not Tested |
+| **CDA.pl** | Streaming | Polish | Working |
 | **Shinden.pl** | Anime | Polish | Working |
 | **OgladajAnime.pl** | Anime | Polish | Working |
 
