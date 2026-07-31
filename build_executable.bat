@@ -16,10 +16,10 @@ REM Check for app.ico
 if not exist app.ico (
     echo [Warning] app.ico not found – EXE will have no custom icon.
     echo           Place app.ico in the same folder as this script and rebuild.
-    set ICON_ARG=
+    set ICON_ARGS=
 ) else (
-    echo [Build] Found app.ico – embedding...
-    set ICON_ARG=--icon app.ico
+    echo [Build] Found app.ico – embedding into EXE binary and runtime bundle...
+    set ICON_ARGS=--icon app.ico --add-data "app.ico;."
 )
 
 echo [Build] Running PyInstaller...
@@ -27,8 +27,7 @@ pyinstaller ^
     --noconsole ^
     --onefile ^
     --name "DiscordRPC" ^
-    %ICON_ARG% ^
-    --add-data "app.ico;." ^
+    %ICON_ARGS% ^
     --collect-all pypresence ^
     --collect-all pystray ^
     --hidden-import pypresence ^
@@ -45,7 +44,7 @@ echo.
 if exist dist\DiscordRPC.exe (
     echo [Build] SUCCESS -^> dist\DiscordRPC.exe
     echo.
-    echo  Copy config.json and app.ico next to the .exe before first run.
+    echo  Icon is now bundled inside dist\DiscordRPC.exe!
     echo  config.json is created automatically on first run if missing.
 ) else (
     echo [Build] FAILED – check errors above.
