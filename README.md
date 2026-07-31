@@ -8,7 +8,6 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 * **Multi-Platform Support:** Works seamlessly with popular video and audio platforms:
   * **Video:** YouTube, CDA.pl, Rumble, Netflix, Twitch
-  * **Music:** YouTube Music, Spotify
 * **Privacy & Incognito Controls:**
   * Toggle Rich Presence globally or per-site.
   * Enable **Incognito Mode** to hide specific details (such as titles, channel names, or timestamps) while still broadcasting general activity.
@@ -45,15 +44,15 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ## Supported Platforms
 
-| Platform | Type | Status | Language |
+| Platform | Type | Language | Status |
 | :--- | :--- | :--- | :--- |
-| **YouTube** | Video-Streaming | Working | Global |
-| **Twitch** | Live-Streaming | Working | Global |
-| **Netflix** | Video-Streaming | Not Tested | Global |
-| **Rumble** | Video-Streaming | Broken | Global |
-| **CDA.pl** | Video-Streaming | Working | Polish |
-| **Shinden.pl** | Anime | Working | Polish |
-| **OgladajAnime.pl** | Anime | Working | Polish |
+| **YouTube** | Video-Streaming |Global | Working |
+| **Twitch** | Live-Streaming | Global | Working |
+| **Netflix** | Video-Streaming | Global | Not Tested |
+| **Rumble** | Video-Streaming | Global | Working |
+| **CDA.pl** | Video-Streaming | Polish | Working |
+| **Shinden.pl** | Anime | Polish | Working |
+| **OgladajAnime.pl** | Anime | Polish | Working |
 
 ---
 
