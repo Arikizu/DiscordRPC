@@ -59,4 +59,4 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). See `LICENSE` for more information.
