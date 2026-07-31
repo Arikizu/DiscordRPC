@@ -1,10 +1,10 @@
-# 🎮 Discord RPC Tool
+# Discord RPC Tool
 
 A lightweight desktop application paired with a browser userscript that dynamically updates your **Discord Rich Presence** based on what you are currently watching or listening to in your web browser.
 
 ---
 
-## 🌟 Features
+## Features
 
 * **Multi-Platform Support:** Works seamlessly with popular video and audio platforms:
   * **Video:** YouTube, CDA.pl, Rumble, Netflix, Twitch
@@ -22,7 +22,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### 1. Browser Userscript
 1. Install a userscript manager in your browser (e.g., [Tampermonkey](https://www.tampermonkey.net/)).
@@ -35,7 +35,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 1. The **Tampermonkey userscript** detects active media playing on supported websites.
 2. It sends real-time metadata (title, episode/track, duration, cover art requests) to the local backend server running on `127.0.0.1:7591`.
@@ -43,7 +43,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
-## 🛠️ Supported Platforms
+## Supported Platforms
 
 | Platform | Type | Status | Language |
 | :--- | :--- | :--- | :--- |
@@ -57,6 +57,6 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
-## 📝 License
+## License
 
 Distributed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). See `LICENSE` for more information.
