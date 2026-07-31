@@ -2,34 +2,41 @@
 Ari's Discord Rich Presence Tool - 0.4.7
 ────────────────────────────────────────────────────────────
 Features:
-  • System-tray (Windows) – minimises there on close
-  • Launch-on-startup registry toggle
-  • HTTP server for Tampermonkey
-  • Configurable activity type: Playing / Watching / Listening / Custom
+  • Ability to set your own custom discord app
+  • Flexible rich presence customization
+  • Minimize to System-tray
+  • Three different launch settings
+  • Connection via Tampermonkey
   • Anime cover-art via AniList + Jikan fallback
   • YouTube thumbnail as large image (non-incognito)
-  • playing_icon / paused_icon as small image
-  • Platform name shown instead of Discord app name
-  • Stable start-timestamp per title
-  • Grid layout in Sites tab (~415 px cards)
-  • Toast notifications instead of popup dialogs
-  • Global RPC on/off master switch
-  • Dev Mode (hidden: Add Custom Site)
-  • Per-site Display Name field
-  • app.ico used for window + tray icon
+  • Start with enabled/disabled status
+  • Dev Mode (shows testing settings)
 ────────────────────────────────────────────────────────────
 Dependencies:  pip install pypresence pystray pillow requests
 Build:         build_exe.bat
 """
 
 # ── stdlib ─────────────────────────────────────────────────────────────────────
-import json, os, sys, threading, time, webbrowser, winreg
+import json, os, sys, threading, time, webbrowser, winreg, ctypes
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.request import urlopen, Request as URLRequest
 
 # ── tkinter ────────────────────────────────────────────────────────────────────
 import tkinter as tk
 from tkinter import ttk
+
+# --- Resource Path Helper ---
+def resource_path(relative_path: str) -> str:
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
+
+# --- Fix Taskbar Icon (Windows App ID) ---
+try:
+    myappid = 'discord.rpc.manager.v4'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except Exception:
+    pass
 
 # ── optional deps ──────────────────────────────────────────────────────────────
 try:
@@ -98,7 +105,7 @@ else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
-ICON_FILE   = os.path.join(BASE_DIR, "app.ico")
+ICON_FILE   = resource_path("app.ico")
 
 CATEGORY_LABELS = {"video": "Video-Streaming", "stream": "Live Streaming",
                    "music": "Music", "polish": "Polish Websites", "other": "Other"}
@@ -891,9 +898,12 @@ class App(tk.Tk):
         self.minsize(680, 520)
         self.configure(bg=BG)
 
+        # --- Set Window / Taskbar Icon ---
         if os.path.exists(ICON_FILE):
-            try: self.iconbitmap(ICON_FILE)
-            except Exception: pass
+            try:
+                self.iconbitmap(ICON_FILE)
+            except Exception as e:
+                print(f"Could not load window icon: {e}")
 
         self._apply_style()
         self._build_ui()
