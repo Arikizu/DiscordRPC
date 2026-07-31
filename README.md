@@ -26,7 +26,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ### 1. Browser Userscript
 1. Install a userscript manager in your browser (e.g., [Tampermonkey](https://www.tampermonkey.net/)).
-2. Add the provided `discord_rich_presence.user.js` file to Tampermonkey and ensure it is enabled.
+2. Add the provided `discord-rpc_script_0.4.6.user.js` file to Tampermonkey and ensure it is enabled.
 
 ### 2. Desktop Application
 1. Download or build the latest release of the **Discord RPC Tool**.
