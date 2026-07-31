@@ -83,6 +83,17 @@
         };
     }
 
+    // ── Anime title cleaner — strips site-name suffixes ─────────────────────────
+    function cleanAnimeTitle(raw) {
+        if (!raw) return raw;
+        return raw
+            // "Title - Oglądaj Anime" / "Title - OgladajAnime" / "Title - Shinden.pl"
+            .replace(/\s*[-–|]\s*(?:ogl[ąa]daj\s*anime|ogladajanime|shinden\.?pl|shinden|animesub).*$/i, '')
+            // strip leftover trailing punctuation
+            .replace(/[\s\-–|]+$/, '')
+            .trim();
+    }
+
     // ╔══════════════════════════════════════════════════════════╗
     // ║                     SCRAPERS                            ║
     // ╚══════════════════════════════════════════════════════════╝
