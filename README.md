@@ -7,7 +7,8 @@ A lightweight desktop application paired with a browser userscript that dynamica
 ## Features
 
 * **Platform Support:** Works with popular streaming platforms:
-  * **Video:** YouTube, CDA.pl, Rumble, Netflix, Twitch
+  * **Global:** YouTube, Rumble, Netflix, Twitch
+  * **Polish:** CDA.pl, OgladajAnime.pl, Shinden.pl
 * **Privacy & Incognito Controls:**
   * Toggle Rich Presence globally or per-site.
   * Enable **Incognito Mode** to hide specific details (such as titles, channel names, or timestamps) while still broadcasting general activity.
