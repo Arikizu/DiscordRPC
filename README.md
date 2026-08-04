@@ -28,7 +28,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ## Installation & Setup
 
-### (Using portable exe version, you can freely skip first step.)
+### Using executable version, you can freely skip first step.
 
 ### 1. Install Dependencies
 1. Install Python 3.10+
