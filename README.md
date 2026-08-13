@@ -70,6 +70,11 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
+
+You can support me on:
+
+[![buycoffee.to](https://buycoffee.to/img/brand/bc-logo.svg)](https://buycoffee.to/arikizu)
+
 ## License
 
 Distributed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). See `LICENSE` for more information.
