@@ -70,8 +70,12 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
+## Issues and Bugs
 
-You can support me on:
+If you encounter any bugs or issues, please report them in the [GitHub Issues section](https://github.com/Arikizu/DiscordRPC/issues).  
+Got ideas or want to help improve the project? Feel free to open an issue or submit a pull request. Your contributions and suggestions are always welcome!
+
+## Support:
 
 [![buycoffee.to](https://buycoffee.to/img/brand/bc-logo.svg)](https://buycoffee.to/arikizu)
 
