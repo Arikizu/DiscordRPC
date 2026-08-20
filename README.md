@@ -4,6 +4,10 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ---
 
+<div align="center">
+  <img src="https://i.imgur.com/DGs6E5J.png"/>
+</div>
+
 ## Features
 
 * **Platform Support:** Works with popular streaming platforms:
@@ -23,6 +27,10 @@ A lightweight desktop application paired with a browser userscript that dynamica
 * **Automatic Cover Art:** Automatically fetches high-resolution youtube thumbnail or anime cover art using the **AniList GraphQL API** (with Jikan fallback).
   
 * **Anime Site Integration:** Dedicated support for Polish anime streaming platforms **OgladajAnime.pl** and **Shinden.pl**.
+
+<div align="center">
+  <img src="https://i.imgur.com/dWuwiSW.png" width="600" />
+</div>
 
 ---
 
