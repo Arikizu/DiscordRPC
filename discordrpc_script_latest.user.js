@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         DiscordRPC Tool Connection Script
-// @namespace    https://github.com/discord-rich-presence
-// @version      0.4.7
+// @namespace    https://github.com/Arikizu/DiscordRPC
+// @version      0.4.8
 // @description  Sends currently-watched content data to the local Discord Rich Presence server
-// @author       Discord RP Manager
+// @author       Arikizu
 // @match        https://www.youtube.com/*
 // @match        https://youtube.com/*
 // @match        https://www.cda.pl/*
@@ -30,9 +30,52 @@
     'use strict';
 
     // ── Config ──────────────────────────────────────────────────────────────
-    const SERVER   = 'http://127.0.0.1:7591/presence';
-    const STATUS   = 'http://127.0.0.1:7591/status';
-    const INTERVAL = 1000;  // ms
+    const SERVER             = 'http://127.0.0.1:7591/presence';
+    const STATUS             = 'http://127.0.0.1:7591/status';
+    const INTERVAL           = 1000; // ms
+    const RECONNECT_INTERVAL = 5000; // ms
+
+    // ── Connection State ────────────────────────────────────────────────────
+    let isConnected    = true;
+    let reconnectTimer = null;
+    let lastKey        = '';
+
+    function handleDisconnect() {
+        if (!isConnected && reconnectTimer) return;
+        isConnected = false;
+        lastKey = ''; // Reset deduplication so current playback sends on reconnect
+
+        if (!reconnectTimer) {
+            reconnectTimer = setInterval(checkConnection, RECONNECT_INTERVAL);
+        }
+    }
+
+    function handleConnect() {
+        isConnected = true;
+        lastKey = '';
+        if (reconnectTimer) {
+            clearInterval(reconnectTimer);
+            reconnectTimer = null;
+        }
+        tick(); // Resync state immediately upon reconnection
+    }
+
+    function checkConnection() {
+        GM_xmlhttpRequest({
+            method: 'GET',
+            url: STATUS,
+            timeout: 2000,
+            onload(r) {
+                if (r.status >= 200 && r.status < 300) {
+                    handleConnect();
+                } else {
+                    handleDisconnect();
+                }
+            },
+            onerror:   () => handleDisconnect(),
+            ontimeout: () => handleDisconnect(),
+        });
+    }
 
     // ── Tampermonkey menu ────────────────────────────────────────────────────
     GM_registerMenuCommand('Check server connection', () => {
@@ -61,8 +104,15 @@
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify(data),
             timeout: 3000,
-            onerror:   () => {},
-            ontimeout: () => {},
+            onload(r) {
+                if (r.status >= 200 && r.status < 300) {
+                    if (!isConnected) handleConnect();
+                } else {
+                    handleDisconnect();
+                }
+            },
+            onerror:   () => handleDisconnect(),
+            ontimeout: () => handleDisconnect(),
         });
     }
 
@@ -89,9 +139,7 @@
     function cleanAnimeTitle(raw) {
         if (!raw) return raw;
         return raw
-            // "Title - Oglądaj Anime" / "Title - OgladajAnime" / "Title - Shinden.pl"
             .replace(/\s*[-–|]\s*(?:ogl[ąa]daj\s*anime|ogladajanime|shinden\.?pl|shinden|animesub).*$/i, '')
-            // strip leftover trailing punctuation
             .replace(/[\s\-–|]+$/, '')
             .trim();
     }
@@ -209,44 +257,33 @@
         let title   = '';
         let episode = '';
 
-        // ── Anime title ───────────────────────────────────────────────────────
-        // Shinden breadcrumb structure: Home > Anime > [Anime Title] > [Episode label]
-        // The anime title sits at breadcrumb index -2; episode label at -1.
         const bc = document.querySelector('ol.breadcrumb, ul.breadcrumb, .breadcrumb');
         if (bc) {
             const items = [...bc.querySelectorAll('li')].map(li => li.textContent.trim()).filter(Boolean);
-            // Last item is current page (episode), second-to-last is anime title
             if (items.length >= 2) {
                 title = items[items.length - 2];
                 const lastItem = items[items.length - 1];
-                // Extract episode number: "Odcinek 5", "Epizod 5", "Episode 5"
                 const epMatch = lastItem.match(/(?:odcinek|epizod|episode|odc\.?|ep\.?)\s*(\d+)/i);
                 if (epMatch) episode = epMatch[1];
             }
         }
 
-        // Fallback title from h1 (may include episode name — use only if breadcrumb failed)
         if (!title) {
             const h1 = document.querySelector('h1');
             if (h1) title = h1.textContent.trim();
         }
 
-        // Fallback title from <title> tag — format: "Anime Title - Odcinek X | Shinden"
         if (!title) {
             const parts = document.title.split(/[-–|]/);
             title = (parts[0] || '').trim();
         }
 
-        // Fallback episode from <title>: "... - Odcinek 5 | Shinden"
         if (!episode) {
             const m = document.title.match(/(?:odcinek|epizod|episode|odc\.?|ep\.?)\s*(\d+)/i);
             if (m) episode = m[1];
         }
 
-        // Clean site-name suffix from title
         title = cleanAnimeTitle(title);
-
-        // NOTE: Do NOT use the URL /episode/<id> — that is a DB record id, not episode number.
 
         let { current, total, paused } = videoTimes();
         if (current === null && typeof window.jwplayer === 'function') {
@@ -258,7 +295,6 @@
             } catch (_) {}
         }
 
-        // Cover from page (poster image)
         const imgEl = document.querySelector(
             '.poster img, .cover img, [class*="cover"] img, [class*="poster"] img, img[alt*="poster"], img[alt*="cover"]');
         const cover_url = imgEl ? (imgEl.src || imgEl.dataset.src || '') : '';
@@ -273,47 +309,33 @@
         let title   = '';
         let episode = '';
 
-        // ── Anime title ───────────────────────────────────────────────────────
-        // OgladajAnime page structure varies: episode pages have the anime title
-        // in a link/heading above the episode title. We try multiple strategies
-        // in order of reliability.
-
-        // Strategy 1: dedicated anime-title element
         const animeTitleEl =
             document.querySelector('.anime-title, [class*="anime-title"]') ||
             document.querySelector('.series-title, [class*="series-title"]') ||
             document.querySelector('[class*="title-anime"], [class*="animeTitle"]');
         if (animeTitleEl) title = animeTitleEl.textContent.trim();
 
-        // Strategy 2: breadcrumb — second-to-last item is usually the anime name
         if (!title) {
             const bc = document.querySelector('.breadcrumb, nav[aria-label="breadcrumb"], ol.breadcrumbs');
             if (bc) {
                 const items = [...bc.querySelectorAll('li, a')]
                     .map(el => el.textContent.trim())
                     .filter(t => t && t !== '›' && t !== '/' && t !== 'Home' && t !== 'Strona główna');
-                // last item is current page (episode), second-to-last is anime title
                 if (items.length >= 2) title = items[items.length - 2];
             }
         }
 
-        // Strategy 3: <title> tag — format often "Anime Name Odcinek X | OgladajAnime"
         if (!title) {
             const raw = document.title.replace(/\|.*$/, '').trim();
-            // strip trailing episode info
             title = raw.replace(/\s*[-–]\s*(?:odcinek|episode|odc\.?|ep\.?)\s*\d+.*$/i, '').trim();
         }
 
-        // Strategy 4: h1 as last resort (may be episode title on some pages)
         if (!title) {
             const h1 = document.querySelector('h1');
             if (h1) title = h1.textContent.trim();
         }
-        // Strip site-name suffix from whatever source we got the title from
         title = cleanAnimeTitle(title);
 
-        // ── Episode number ────────────────────────────────────────────────────
-        // Priority 1: breadcrumb or page elements with explicit keyword
         const bc2 = document.querySelector('.breadcrumb, nav[aria-label="breadcrumb"], ol.breadcrumbs');
         if (bc2) {
             bc2.querySelectorAll('li, a').forEach(el => {
@@ -321,19 +343,16 @@
                 if (m) episode = m[1];
             });
         }
-        // Priority 2: document title
         if (!episode) {
             const m = document.title.match(/(?:odcinek|episode|odc\.?|ep\.?)\s*(\d+)/i);
             if (m) episode = m[1];
         }
-        // Priority 3: URL — short numeric segment only
         if (!episode) {
             const segs = location.pathname.split('/').filter(Boolean);
             const epSeg = segs.slice().reverse().find(s => /^\d{1,4}$/.test(s));
             if (epSeg) episode = epSeg;
         }
 
-        // ── Video times ───────────────────────────────────────────────────────
         let { current, total, paused } = videoTimes();
         if (current === null && typeof window.jwplayer === 'function') {
             try {
@@ -344,16 +363,8 @@
             } catch (_) {}
         }
 
-        // ── Cover image ───────────────────────────────────────────────────────
-        // OgladajAnime uses lozad lazy loading. The cover image HTML looks like:
-        //   <img class="img-fluid lozad rounded float-right"
-        //        data-srcset="https://cdn.ogladajanime.pl/images/anime_new/72884/2.webp?..."
-        //        srcset="https://cdn.ogladajanime.pl/images/anime_new/72884/2.webp?..."
-        //        src="..." alt="Anime Title">
-        // Priority: data-srcset / srcset (CDN WebP) > data-src > src
         function extractCoverUrl(el) {
             if (!el) return '';
-            // data-srcset and srcset can be "url w h, url2 w h" — take first entry
             const srcset = (el.dataset.srcset || el.getAttribute('srcset') || '').trim();
             if (srcset) {
                 const first = srcset.split(',')[0].trim().split(/\s+/)[0];
@@ -362,15 +373,12 @@
             return (el.dataset.src || el.src || '').trim();
         }
 
-        // 1. Primary: lozad image matching CDN domain
         let coverEl =
             document.querySelector('img.lozad[data-srcset*="cdn.ogladajanime"]') ||
             document.querySelector('img.lozad[srcset*="cdn.ogladajanime"]') ||
             document.querySelector('img.lozad.float-right, img.lozad.rounded.float-right') ||
-            // 2. Any image with the CDN URL
             document.querySelector('img[data-srcset*="cdn.ogladajanime"]') ||
             document.querySelector('img[srcset*="cdn.ogladajanime"]') ||
-            // 3. Fallback selectors
             document.querySelector('img.img-fluid.rounded[alt]') ||
             document.querySelector('img[alt="' + title + '"]');
 
@@ -380,7 +388,6 @@
                  current_time: current, total_time: total, paused,
                  cover_url };
     }
-
 
     // ╔══════════════════════════════════════════════════════════╗
     // ║                      ROUTER                             ║
@@ -402,9 +409,9 @@
     // ║                   SEND LOOP                             ║
     // ╚══════════════════════════════════════════════════════════╝
 
-    let lastKey = '';
-
     function tick() {
+        if (!isConnected) return; // Halt DOM scraping when server is offline
+
         const data = scrapeCurrentPage();
         if (!data) return;
 
