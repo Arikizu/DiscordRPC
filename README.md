@@ -41,7 +41,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
 
 ### 3. Browser Userscript
 1. Install [Tampermonkey](https://www.tampermonkey.net/) in your browser.
-2. Add the provided `discord-rpc_script.user.js` file to Tampermonkey and ensure it is enabled.
+2. Add the provided `discordrpc_script_latest.user.js` file to Tampermonkey and ensure it is enabled.
 3. In webbrowser make sure is "allow user scripts" are enabled in the settings of the Tampermonkey.
 
 ### Browser tabs must be reloaded if they were opened before launching DiscordRPC. 
