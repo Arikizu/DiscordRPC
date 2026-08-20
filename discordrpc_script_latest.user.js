@@ -18,6 +18,8 @@
 // @match        https://www.shinden.pl/*
 // @match        https://ogladajanime.pl/*
 // @match        https://www.ogladajanime.pl/*
+// @updateURL    https://github.com/Arikizu/DiscordRPC/raw/refs/heads/main/discordrpc_script_latest.user.js
+// @downloadURL  https://github.com/Arikizu/DiscordRPC/raw/refs/heads/main/discordrpc_script_latest.user.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // @connect      127.0.0.1
