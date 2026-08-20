@@ -18,7 +18,7 @@ A lightweight desktop application paired with a browser userscript that dynamica
   * Toggle Rich Presence globally or per-site.
   * Enable **Incognito Mode** to hide specific details (such as titles, channel names, or timestamps) while still broadcasting general activity.
     
-* **Customization:** Configurable Discord Application IDs, display names, and individual icon tooltips for supported sites.
+* **Customization:** Configurable Discord Application IDs for supported sites.
 * **Minimalist UI & Performance:**
   * Clean dark theme UI.
   * Minimizes to the Windows system tray.
